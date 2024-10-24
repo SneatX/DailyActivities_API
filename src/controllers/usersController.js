@@ -1,17 +1,19 @@
 import UsersModel from '../models/usersModel.js';
 import { validationResult } from 'express-validator';
 
-export default class UserController {
+import responseFormatter from '../utils/responseFormatter.js'
 
+export default class UserController {
     static async logIn(req, res) {
         const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-
+        if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));
+    
+        let userModel = new UsersModel()
     }
 
     static async getAll(req, res) {
         const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+        if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));
 
         let userModel = new UsersModel()
         let users = await userModel.getAll()

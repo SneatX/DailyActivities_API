@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import jsonParseErrorHandler from './src/untils/errorHandling.js'
+import jsonParseErrorHandler from './src/utils/errorHandling.js'
 import mainRouter from './src/routers/mainRouter.js'
 
 process.loadEnvFile()
