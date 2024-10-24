@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import mainRouter from './src/routers/mainRouter.js'
 
 process.loadEnvFile()
 
@@ -12,8 +13,6 @@ app.listen(port, () => {
     console.log('http://localhost:' + port)
 })
 
-app.use("/", (req, res) => {
-    res.send("Hello World!")
-})
+app.use("/api", mainRouter)
 
 export default app
