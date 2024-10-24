@@ -6,6 +6,7 @@ process.loadEnvFile()
 
 const app = express()
 app.use(cors())
+app.use(express.json())
 
 const port = process.env.EXPRESS_PORT || 3000
 
