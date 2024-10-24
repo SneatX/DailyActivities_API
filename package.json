@@ -1,0 +1,11 @@
+{
+  "name": "diary_activity_api",
+  "version": "1.0.0",
+  "description": "El proyecto **API de Registro de Actividades Diarias** tiene como objetivo crear una herramienta eficiente y flexible que permita a los usuarios organizar, registrar, y seguir su progreso en diversas actividades cotidianas.",
+  "main": "app.js",
+  "scripts": {
+    "test": "dev"
+  },
+  "author": "SneatX",
+  "license": "ISC"
+}
