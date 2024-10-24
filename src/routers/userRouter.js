@@ -6,6 +6,6 @@ import userValidator from '../validators/userValidator.js';
 const router = express.Router();
 
 router.get('/', rateLimiter.getLimiter, userValidator.emptyQueryAndBodyValidation, UserController.getAll)
-router.post("/iniciarSesion", rateLimiter.getLimiter, userValidator.logInValidation, UserController.logIn)
+router.post("/login", rateLimiter.getLimiter, userValidator.logInValidation, UserController.logIn)
 
 export default router 
