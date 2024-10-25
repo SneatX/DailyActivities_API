@@ -32,7 +32,7 @@ const emptyQueryAndBodyValidation = [
     }),
 ]
 
-const getUserByIdValidation = [
+const idParamValidation = [
     param("id")
         .exists()
         .withMessage("id is required in the body"),
@@ -67,6 +67,6 @@ const updateUserByIdValidation = [
 export default {
     logInValidation,
     emptyQueryAndBodyValidation,
-    getUserByIdValidation,
+    idParamValidation,
     updateUserByIdValidation
 }

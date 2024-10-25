@@ -44,4 +44,12 @@ export default class UsersModel {
             console.log(error);
         }
     }
+
+    async deleteById(id){
+        try{
+            await pool.query(`DELETE FROM users WHERE id = "${id}"`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

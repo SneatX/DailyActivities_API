@@ -8,8 +8,9 @@ const router = express.Router();
 
 //Private requests
 router.get('/', authJWT, rateLimiter.getLimiter, userValidator.emptyQueryAndBodyValidation, UserController.getAll)
-router.get('/:id', authJWT, rateLimiter.getLimiter, userValidator.getUserByIdValidation, UserController.getById)
+router.get('/:id', authJWT, rateLimiter.getLimiter, userValidator.idParamValidation, UserController.getById)
 router.put('/:id', authJWT, rateLimiter.putLimiter, userValidator.updateUserByIdValidation, UserController.updateById)
+router.delete('/:id', authJWT, rateLimiter.deleteLimiter, userValidator.idParamValidation, UserController.deleteById)
 
 //Public requests
 router.post("/login", rateLimiter.loginLimiter, userValidator.logInValidation, UserController.logIn)

@@ -81,5 +81,18 @@ export default class UserController {
         await userModel.updateById(req.params.id, user)
         res.status(200).json(responseFormatter(200, "Data updated successfully", user))
     }
+
+    static async deleteById(req, res) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));
+
+        let userModel = new UsersModel()
+        let user = await userModel.getById(req.params.id)
+        if (!user) return res.status(404).json(responseFormatter(404, "User not found"))
+
+        await userModel.deleteById(req.params.id)
+        res.status(200).json(responseFormatter(200, "User deleted successfully", user))
+    }
+
 }
 
