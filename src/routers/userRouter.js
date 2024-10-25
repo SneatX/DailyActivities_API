@@ -12,7 +12,7 @@ router.get('/:id', authJWT, rateLimiter.getLimiter, userValidator.getUserByIdVal
 router.put('/:id', authJWT, rateLimiter.putLimiter, userValidator.updateUserByIdValidation, UserController.updateById)
 
 //Public requests
-router.post("/login", rateLimiter.postLimiter, userValidator.logInValidation, UserController.logIn)
+router.post("/login", rateLimiter.loginLimiter, userValidator.logInValidation, UserController.logIn)
 router.post("/validatesession", rateLimiter.postLimiter, UserController.validateSession)
 
 export default router 
