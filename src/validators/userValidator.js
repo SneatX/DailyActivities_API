@@ -1,4 +1,4 @@
-import { body, query } from 'express-validator';
+import { body, header, query } from 'express-validator';
 
 const logInValidation = [
     query().custom((value, { req }) => {
@@ -32,8 +32,14 @@ const emptyQueryAndBodyValidation = [
     }),
 ]
 
+const sessionValidation = [
+    header('Authorization').exists().withMessage('Authorization header is required')
+    .matches(/^Bearer\s[\w-]+\.[\w-]+\.[\w-]+$/).withMessage('Authorization header must be in the format: Bearer <token>')
+]
+
 
 export default {
     logInValidation,
-    emptyQueryAndBodyValidation
+    emptyQueryAndBodyValidation,
+    sessionValidation
 }

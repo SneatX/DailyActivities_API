@@ -29,6 +29,17 @@ export default class UserController {
         res.status(200).json(responseFormatter(200, "Success", token))
     }
 
+    static async validateSession(req, res) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));
+
+        const token = req.headers.authorization.split(' ')[1]
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) return res.status(401).json(responseFormatter(401, `Invalid token: ${err.name}`))
+            res.status(200).json(responseFormatter(200, "Success", decoded))
+        })
+    }
+
     static async getAll(req, res) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));

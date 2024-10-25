@@ -1,4 +1,4 @@
-import express, { json } from 'express';
+import express from 'express';
 import UserController from '../controllers/usersController.js';
 import rateLimiter from '../middlewares/rateLimiter.js';
 import userValidator from '../validators/userValidator.js';
@@ -7,5 +7,6 @@ const router = express.Router();
 
 router.get('/', rateLimiter.getLimiter, userValidator.emptyQueryAndBodyValidation, UserController.getAll)
 router.post("/login", rateLimiter.getLimiter, userValidator.logInValidation, UserController.logIn)
+router.post("/validatesession", rateLimiter.getLimiter, userValidator.sessionValidation, UserController.validateSession)
 
 export default router 
