@@ -41,7 +41,7 @@ export default class UserController {
         if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(400).json(responseFormatter(400, 'Token missing or improperly formatted'))
     
         const token = authHeader.split(' ')[1]
-        
+
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if (err) return res.status(401).json(responseFormatter(401, `Invalid token: ${err.name}`))
             res.status(200).json(responseFormatter(200, "Success", decoded))
@@ -54,7 +54,18 @@ export default class UserController {
 
         let userModel = new UsersModel()
         let users = await userModel.getAll()
-        res.status(200).json(users)
+        res.status(200).json(responseFormatter(200, "Success", users))
+    }
+
+    static async getById(req, res) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));
+
+        let userModel = new UsersModel()
+        let user = await userModel.getById(req.params.id)
+        if (!user) return res.status(404).json(responseFormatter(404, "User not found"))
+
+        res.status(200).json(responseFormatter(200, "Success", user))
     }
 }
 

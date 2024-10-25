@@ -1,4 +1,4 @@
-import { body, header, query } from 'express-validator';
+import { body, header, query, param } from 'express-validator';
 
 const logInValidation = [
     query().custom((value, { req }) => {
@@ -32,8 +32,13 @@ const emptyQueryAndBodyValidation = [
     }),
 ]
 
+const getUserByIdValidation = [
+    param("id").exists().withMessage("id is required in the body")
+]
+
 
 export default {
     logInValidation,
     emptyQueryAndBodyValidation,
+    getUserByIdValidation
 }
