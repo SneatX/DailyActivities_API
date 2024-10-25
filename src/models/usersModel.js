@@ -36,4 +36,12 @@ export default class UsersModel {
             console.log(error);
         }
     }
+
+    async updateLastLogin(id, lastLogin) {
+        try {
+            await pool.query(`UPDATE users SET last_login = "${lastLogin}" WHERE id = "${id}"`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

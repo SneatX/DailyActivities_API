@@ -17,22 +17,19 @@ export default class UserController {
         const match = await bcrypt.compare(req.body.password, user.password)
         if (!match) return res.status(401).json(responseFormatter(401, "Incorrect password"))
 
-        
+        let actualDate = new Date()
         const token = jwt.sign({
             id: user.id,
             name: user.username,
             email: user.email,
-            login_date_and_time: new Date()
+            login_date_and_time: actualDate
         }, process.env.JWT_SECRET,
             { expiresIn: '30min' }
         )
 
-        // res.cookie('token', token, {
-        //     httpOnly: true, // La cookie no puede ser accedida por JavaScript, solo por el servidor
-        //     secure: true, // Solo se enviará sobre HTTPS (importante en producción)
-        //     sameSite: 'strict', // Evita que se envíe en solicitudes cruzadas (más seguro)
-        //     maxAge: 30 * 60 * 1000, // La cookie expirará en 30 min
-        // })
+        // Update last login
+        const fechaFormateada = actualDate.toISOString().slice(0, 19).replace('T', ' ');
+        await userModel.updateLastLogin(user.id, fechaFormateada)
 
         return res.status(200).json(responseFormatter(200, "Success", token))
     }
