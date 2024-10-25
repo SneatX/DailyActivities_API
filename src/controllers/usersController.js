@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
 import UsersModel from '../models/usersModel.js';
 import responseFormatter from '../utils/responseFormatter.js'
+import hashPassword from '../utils/hashPassword.js'
 
 export default class UserController {
     static async logIn(req, res) {
@@ -66,6 +67,22 @@ export default class UserController {
         if (!user) return res.status(404).json(responseFormatter(404, "User not found"))
 
         res.status(200).json(responseFormatter(200, "Success", user))
+    }
+
+    static async updateById(req, res) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));
+
+        let userModel = new UsersModel()
+        let user = await userModel.getById(req.params.id)
+        if (!user) return res.status(404).json(responseFormatter(404, "User not found"))
+
+        user.username = req.body.username || user.username
+        user.email = req.body.email || user.email
+        req.body.password ? user.password = await hashPassword(req.body.password) : user.password
+        
+        await userModel.updateById(req.params.id, user)
+        res.status(200).json(responseFormatter(200, "Data updated successfully", user))
     }
 }
 

@@ -28,4 +28,12 @@ export default class UsersModel {
             console.log(error);
         }
     }
+
+    async updateById(id, user) {
+        try {
+           await pool.query(`UPDATE users SET username = "${user.username}", email = "${user.email}", password = "${user.password}" WHERE id = "${id}"`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
