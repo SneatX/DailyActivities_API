@@ -33,6 +33,33 @@ export default class UserController {
 
         return res.status(200).json(responseFormatter(200, "Success", token))
     }
+    
+    static async newUser(req,res){
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));
+        
+        let userModel = new UsersModel()
+        let user = await userModel.getByEmail(req.body.email)
+
+        if(user) return res.status(400).json(responseFormatter(400, "Email already exists"))
+        
+        let newUser = {
+            username: req.body.username,
+            email: req.body.email,
+            password: await hashPassword(req.body.password),
+            status: "active",
+            creation_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+            last_login: new Date().toISOString().slice(0, 19).replace('T', ' ')
+        }
+
+        try {
+            await userModel.insert(newUser)
+            return res.status(200).json(responseFormatter(200, "User created successfully", newUser))
+        } catch (error) {
+            console.log(error)
+            return res.status(400).json(responseFormatter(400, "Error creating user"))
+        }
+    }
 
     static async validateSession(req, res) {
         const authHeader = req.headers.authorization

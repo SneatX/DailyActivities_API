@@ -17,6 +17,27 @@ const logInValidation = [
         .isString().withMessage("password must be a string")
 ]
 
+const newUserValidation = [
+    query().custom((value, { req }) => {
+        if (Object.keys(req.query).length > 0) {
+            throw new Error('Query parameters not allowed');
+        }
+        return true;
+    }),
+
+    body("username")
+        .exists().withMessage("username is required in the body")
+        .isString().withMessage("username must be a string"),
+
+    body("email")
+        .exists().withMessage("email is required in the body")
+        .isEmail().withMessage("email must be a valid email"),
+
+    body("password")
+        .exists().withMessage("password is required")
+        .isString().withMessage("password must be a string"),
+]
+
 const emptyQueryAndBodyValidation = [
     query().custom((value, { req }) => {
         if (Object.keys(req.query).length > 0) {
@@ -68,5 +89,6 @@ export default {
     logInValidation,
     emptyQueryAndBodyValidation,
     idParamValidation,
-    updateUserByIdValidation
+    updateUserByIdValidation,
+    newUserValidation
 }

@@ -9,6 +9,7 @@ const router = express.Router();
 //Private requests
 router.get('/', authJWT, rateLimiter.getLimiter, userValidator.emptyQueryAndBodyValidation, UserController.getAll)
 router.get('/:id', authJWT, rateLimiter.getLimiter, userValidator.idParamValidation, UserController.getById)
+router.post("/", authJWT, rateLimiter.postLimiter, userValidator.newUserValidation, UserController.newUser)
 router.put('/:id', authJWT, rateLimiter.putLimiter, userValidator.updateUserByIdValidation, UserController.updateById)
 router.delete('/:id', authJWT, rateLimiter.deleteLimiter, userValidator.idParamValidation, UserController.changeStatusToInactive)
 

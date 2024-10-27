@@ -29,6 +29,14 @@ export default class UsersModel {
         }
     }
 
+    async insert(user){
+        try {
+            await pool.query(`INSERT INTO users (username, email, password, status, creation_date, last_login) VALUES ("${user.username}", "${user.email}", "${user.password}", "${user.status}", "${user.creation_date}", "${user.last_login}")`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async updateById(id, user) {
         try {
            await pool.query(`UPDATE users SET username = "${user.username}", email = "${user.email}", password = "${user.password}" WHERE id = "${id}"`);
