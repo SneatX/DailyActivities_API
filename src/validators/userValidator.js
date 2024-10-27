@@ -1,4 +1,4 @@
-import { body, header, query, param } from 'express-validator';
+import { body, query, param } from 'express-validator';
 
 const logInValidation = [
     query().custom((value, { req }) => {
