@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', authJWT, rateLimiter.getLimiter, userValidator.emptyQueryAndBodyValidation, UserController.getAll)
 router.get('/:id', authJWT, rateLimiter.getLimiter, userValidator.idParamValidation, UserController.getById)
 router.put('/:id', authJWT, rateLimiter.putLimiter, userValidator.updateUserByIdValidation, UserController.updateById)
-router.delete('/:id', authJWT, rateLimiter.deleteLimiter, userValidator.idParamValidation, UserController.deleteById)
+router.delete('/:id', authJWT, rateLimiter.deleteLimiter, userValidator.idParamValidation, UserController.changeStatusToInactive)
 
 //Public requests
 router.post("/login", rateLimiter.loginLimiter, userValidator.logInValidation, UserController.logIn)

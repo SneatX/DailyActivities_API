@@ -45,9 +45,9 @@ export default class UsersModel {
         }
     }
 
-    async deleteById(id){
-        try{
-            await pool.query(`DELETE FROM users WHERE id = "${id}"`);
+    async changeStatus(id, newStatus) {
+        try {
+            await pool.query(`UPDATE users SET status = ? WHERE id = ?`, [newStatus, id]);
         } catch (error) {
             console.log(error);
         }
