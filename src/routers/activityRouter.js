@@ -9,6 +9,7 @@ const router = express.Router();
 
 //Private requests
 router.get("/", authJWT, rateLimiter.getLimiter, activityValidator.emptyQueryAndBodyValidation, ActivityController.getAll)
+router.post("/", authJWT, rateLimiter.postLimiter, activityValidator.newActivityValidation, ActivityController.newActivity)
 
 //Public requests
 
