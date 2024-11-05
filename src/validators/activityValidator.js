@@ -37,7 +37,21 @@ const newActivityValidation = [
         .isIn(['low', 'medium', 'high']).withMessage("state must be one of: low, medium, or high"),
 ]
 
+const idParamValidation = [
+    param("id")
+        .exists()
+        .withMessage("id is required in the body"),
+
+    body().custom((value, { req }) => {
+        if (Object.keys(req.body).length > 0) {
+            throw new Error('Body parameters not allowed');
+        }
+        return true;
+    }),
+]
+
 export default {
     emptyQueryAndBodyValidation,
-    newActivityValidation
+    newActivityValidation,
+    idParamValidation
 }

@@ -13,6 +13,16 @@ export default class ActivityController {
         res.status(200).json(responseFormatter(200, "Success", activities))
     }
 
+    static async getById(req, res){
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));
+
+        let activitiesModel = new ActivitiesModel()
+        let activity = await activitiesModel.getById(req.params.id)
+        if(!activity) return res.status(404).json(responseFormatter(404, "Activity not found"))
+        res.status(200).json(responseFormatter(200, "Success", activity))
+    }
+
     static async newActivity(req, res){
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json(responseFormatter(400, errors.array()[0].msg));

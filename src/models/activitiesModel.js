@@ -10,6 +10,14 @@ export default class ActivitiesModel {
         }
     }
 
+    async getById(id) {
+        try {
+            const [[activity]] = await pool.query(`SELECT * FROM activities WHERE id = "${id}"`);
+            return activity;
+        } catch (error) {
+            console.log(error);
+        }
+    }
     async insert(activity){
         try {
             await pool.query(`INSERT INTO activities (user_fk, title, description, state, priority, creation_date, update_date) VALUES ("${activity.user_fk}", "${activity.title}", "${activity.description}", "${activity.state}", "${activity.priority}", "${activity.creation_date}", "${activity.update_date}")`);
